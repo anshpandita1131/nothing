@@ -1,0 +1,1471 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Birthday Love Gallery</title>
+    <meta name="description"
+        content="A birthday-themed interactive website with a dynamic photo gallery, love letters, and a heartfelt celebration homepage." />
+    <meta property="og:title" content="Birthday Love Gallery" />
+    <meta property="og:description"
+        content="A romantic birthday website with wishes, memories, and a dynamic photo gallery." />
+    <meta property="og:image" content="https://picsum.photos/seed/birthdayhero/1600/900" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <style>
+        :root,
+        [data-theme="light"] {
+            --text-xs: clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem);
+            --text-sm: clamp(0.875rem, 0.8rem + 0.35vw, 1rem);
+            --text-base: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+            --text-lg: clamp(1.125rem, 1rem + 0.75vw, 1.5rem);
+            --text-xl: clamp(1.5rem, 1.2rem + 1.25vw, 2.25rem);
+            --text-2xl: clamp(2rem, 1.2rem + 2.5vw, 3.5rem);
+            --text-3xl: clamp(2.5rem, 1rem + 4vw, 5rem);
+            --text-hero: clamp(3rem, 0.5rem + 7vw, 7rem);
+            --space-1: 0.25rem;
+            --space-2: 0.5rem;
+            --space-3: 0.75rem;
+            --space-4: 1rem;
+            --space-5: 1.25rem;
+            --space-6: 1.5rem;
+            --space-8: 2rem;
+            --space-10: 2.5rem;
+            --space-12: 3rem;
+            --space-16: 4rem;
+            --space-20: 5rem;
+            --space-24: 6rem;
+            --color-bg: #fff6fb;
+            --color-surface: #fffafd;
+            --color-surface-2: #fff0f7;
+            --color-surface-offset: #fde4f1;
+            --color-surface-dynamic: #f7d3e7;
+            --color-border: rgba(93, 47, 77, 0.12);
+            --color-divider: rgba(93, 47, 77, 0.08);
+            --color-text: #341827;
+            --color-text-muted: #7f5369;
+            --color-text-faint: #b98fa5;
+            --color-text-inverse: #fff9fc;
+            --color-primary: #d94d8b;
+            --color-primary-hover: #bb3672;
+            --color-primary-active: #99265b;
+            --color-secondary: #7d5cff;
+            --radius-sm: 0.5rem;
+            --radius-md: 0.875rem;
+            --radius-lg: 1.25rem;
+            --radius-xl: 1.75rem;
+            --radius-full: 9999px;
+            --shadow-sm: 0 4px 20px rgba(120, 50, 90, 0.08);
+            --shadow-md: 0 12px 32px rgba(120, 50, 90, 0.12);
+            --shadow-lg: 0 24px 60px rgba(120, 50, 90, 0.18);
+            --font-display: 'Playfair Display', Georgia, serif;
+            --font-body: 'Manrope', Arial, sans-serif;
+            --content-default: 1120px;
+            --transition-interactive: 180ms cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        [data-theme="dark"] {
+            --color-bg: #140b11;
+            --color-surface: #1e1119;
+            --color-surface-2: #25131e;
+            --color-surface-offset: #301826;
+            --color-surface-dynamic: #422335;
+            --color-border: rgba(255, 226, 240, 0.12);
+            --color-divider: rgba(255, 226, 240, 0.08);
+            --color-text: #ffe9f3;
+            --color-text-muted: #d4a7ba;
+            --color-text-faint: #9e7386;
+            --color-text-inverse: #1d1018;
+            --color-primary: #ff78b3;
+            --color-primary-hover: #ff95c4;
+            --color-primary-active: #ffc0db;
+            --color-secondary: #b39cff;
+            --shadow-sm: 0 4px 20px rgba(0, 0, 0, 0.22);
+            --shadow-md: 0 12px 32px rgba(0, 0, 0, 0.28);
+            --shadow-lg: 0 24px 60px rgba(0, 0, 0, 0.4);
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: var(--font-body);
+            font-size: var(--text-base);
+            color: var(--color-text);
+            background: radial-gradient(circle at top left, rgba(255, 153, 204, 0.22), transparent 32%), radial-gradient(circle at top right, rgba(179, 156, 255, 0.2), transparent 28%), linear-gradient(180deg, var(--color-bg), var(--color-surface));
+            line-height: 1.6;
+        }
+
+        img {
+            display: block;
+            max-width: 100%;
+            height: auto;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        button {
+            font: inherit;
+        }
+
+        .skip-link {
+            position: absolute;
+            left: -9999px;
+            top: auto;
+        }
+
+        .skip-link:focus {
+            left: var(--space-4);
+            top: var(--space-4);
+            z-index: 999;
+            background: var(--color-primary);
+            color: var(--color-text-inverse);
+            padding: var(--space-3) var(--space-4);
+            border-radius: var(--radius-full);
+        }
+
+        .container {
+            width: min(calc(100% - 2rem), var(--content-default));
+            margin: 0 auto;
+        }
+
+        .site-header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(16px);
+            background: color-mix(in srgb, var(--color-bg) 78%, transparent);
+            border-bottom: 1px solid var(--color-divider);
+        }
+
+        .header-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: var(--space-4);
+            padding: var(--space-4) 0;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            font-weight: 800;
+        }
+
+        .brand svg {
+            width: 42px;
+            height: 42px;
+            color: var(--color-primary);
+        }
+
+        .brand-text strong {
+            display: block;
+            font-size: var(--text-sm);
+        }
+
+        .brand-text span {
+            display: block;
+            font-size: var(--text-xs);
+            color: var(--color-text-muted);
+        }
+
+        .nav {
+            display: flex;
+            align-items: center;
+            gap: var(--space-4);
+            flex-wrap: wrap;
+        }
+
+        .nav a {
+            font-size: var(--text-sm);
+            color: var(--color-text-muted);
+            font-weight: 700;
+        }
+
+        .nav a:hover {
+            color: var(--color-primary);
+        }
+
+        .theme-toggle,
+        .music-toggle,
+        .menu-toggle {
+            border: 1px solid var(--color-border);
+            background: var(--color-surface);
+            color: var(--color-text);
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            display: inline-grid;
+            place-items: center;
+            box-shadow: var(--shadow-sm);
+            cursor: pointer;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: var(--space-3);
+            align-items: center;
+        }
+
+        .menu-toggle {
+            display: none;
+            font-size: 1.15rem;
+        }
+
+        .mobile-nav {
+            display: none;
+            padding: 0 0 var(--space-4);
+        }
+
+        .mobile-nav-inner {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: var(--space-3);
+        }
+
+        .mobile-nav a {
+            min-height: 44px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.85rem 1rem;
+            background: var(--color-surface);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-full);
+            color: var(--color-text);
+            font-size: var(--text-sm);
+            font-weight: 700;
+        }
+
+        .mobile-nav.open {
+            display: block;
+        }
+
+        .hero {
+            position: relative;
+            overflow: hidden;
+            padding: clamp(4rem, 8vw, 7rem) 0 var(--space-20);
+            min-height: 92vh;
+            display: flex;
+            align-items: center;
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1.15fr 0.85fr;
+            gap: var(--space-10);
+            align-items: center;
+        }
+
+        .eyebrow {
+            display: inline-flex;
+            gap: var(--space-2);
+            align-items: center;
+            padding: 0.45rem 0.9rem;
+            border-radius: var(--radius-full);
+            background: var(--color-surface-2);
+            border: 1px solid var(--color-border);
+            color: var(--color-primary);
+            font-size: var(--text-xs);
+            font-weight: 800;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+        }
+
+        .hero h1 {
+            font-family: var(--font-display);
+            font-size: var(--text-hero);
+            line-height: 0.95;
+            margin: var(--space-5) 0 var(--space-4);
+            max-width: 10ch;
+        }
+
+        .hero p {
+            max-width: 58ch;
+            color: var(--color-text-muted);
+            margin-bottom: var(--space-6);
+        }
+
+        .cta-row {
+            display: flex;
+            gap: var(--space-4);
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--space-2);
+            min-height: 48px;
+            padding: 0.9rem 1.3rem;
+            border-radius: var(--radius-full);
+            font-weight: 800;
+            border: 1px solid transparent;
+            transition: transform var(--transition-interactive), background var(--transition-interactive), color var(--transition-interactive);
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn-primary {
+            background: var(--color-primary);
+            color: var(--color-text-inverse);
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-primary:hover {
+            background: var(--color-primary-hover);
+        }
+
+        .btn-secondary {
+            background: var(--color-surface);
+            color: var(--color-text);
+            border-color: var(--color-border);
+        }
+
+        .hero-card {
+            position: relative;
+            border-radius: var(--radius-xl);
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+            min-height: 560px;
+            isolation: isolate;
+            background: var(--color-surface-2);
+        }
+
+        .hero-card img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .hero-card::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, rgba(15, 7, 11, 0.06), rgba(15, 7, 11, 0.7));
+        }
+
+        .hero-note {
+            position: absolute;
+            left: var(--space-6);
+            right: var(--space-6);
+            bottom: var(--space-6);
+            z-index: 2;
+            padding: var(--space-5);
+            border-radius: var(--radius-lg);
+            background: rgba(255, 255, 255, 0.14);
+            color: #fff;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+
+        .hero-note strong {
+            display: block;
+            margin-bottom: var(--space-2);
+            font-size: var(--text-lg);
+        }
+
+        .floating-badges {
+            display: flex;
+            gap: var(--space-4);
+            flex-wrap: wrap;
+            margin-top: var(--space-8);
+        }
+
+        .badge-card {
+            background: rgba(255, 255, 255, 0.72);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.55);
+            box-shadow: var(--shadow-sm);
+            border-radius: var(--radius-lg);
+            padding: var(--space-4) var(--space-5);
+            min-width: 150px;
+        }
+
+        .badge-card strong {
+            display: block;
+            font-size: var(--text-lg);
+            color: var(--color-primary);
+        }
+
+        .badge-card span {
+            color: var(--color-text-muted);
+            font-size: var(--text-xs);
+        }
+
+        section {
+            padding: clamp(var(--space-12), 8vw, var(--space-24)) 0;
+            content-visibility: auto;
+        }
+
+        .section-head {
+            margin-bottom: var(--space-8);
+            max-width: 70ch;
+        }
+
+        .section-head h2 {
+            font-family: var(--font-display);
+            font-size: var(--text-2xl);
+            margin-bottom: var(--space-3);
+        }
+
+        .section-head p {
+            color: var(--color-text-muted);
+        }
+
+        .countdown-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: var(--space-4);
+        }
+
+        .count-box {
+            background: var(--color-surface);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-xl);
+            padding: var(--space-6);
+            text-align: center;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .count-box strong {
+            display: block;
+            font-size: var(--text-3xl);
+            color: var(--color-primary);
+            line-height: 1;
+        }
+
+        .count-box span {
+            color: var(--color-text-muted);
+            font-weight: 700;
+        }
+
+        .gallery-wrap {
+            display: grid;
+            grid-template-columns: 360px 1fr;
+            gap: var(--space-6);
+            align-items: start;
+        }
+
+        .gallery-panel,
+        .memory-board,
+        .letter-card,
+        .wish-box,
+        .final-banner {
+            background: var(--color-surface);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .gallery-panel {
+            padding: var(--space-5);
+            position: sticky;
+            top: 88px;
+        }
+
+        .gallery-panel label,
+        .gallery-panel input,
+        .gallery-panel textarea {
+            display: block;
+            width: 100%;
+        }
+
+        .gallery-panel label {
+            margin-bottom: 0.4rem;
+            font-weight: 800;
+            font-size: var(--text-sm);
+        }
+
+        .gallery-panel input,
+        .gallery-panel textarea {
+            border: 1px solid var(--color-border);
+            background: var(--color-surface-2);
+            border-radius: var(--radius-md);
+            padding: 0.85rem 1rem;
+            margin-bottom: var(--space-4);
+            color: var(--color-text);
+        }
+
+        .gallery-panel textarea {
+            min-height: 96px;
+            resize: vertical;
+        }
+
+        .helper {
+            font-size: var(--text-xs);
+            color: var(--color-text-muted);
+            margin-top: -0.5rem;
+            margin-bottom: var(--space-4);
+        }
+
+        .camera-box {
+            border: 1px dashed var(--color-border);
+            border-radius: var(--radius-lg);
+            padding: var(--space-4);
+            background: var(--color-surface-2);
+            margin-bottom: var(--space-4);
+        }
+
+        .camera-box video,
+        .camera-box img {
+            width: 100%;
+            border-radius: var(--radius-md);
+            background: #000;
+        }
+
+        .camera-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-3);
+            margin-top: var(--space-3);
+        }
+
+        .camera-actions .btn {
+            width: 100%;
+        }
+
+        .upload-preview {
+            margin-bottom: var(--space-4);
+        }
+
+        .upload-preview img {
+            width: 100%;
+            border-radius: var(--radius-md);
+            margin-top: var(--space-3);
+        }
+
+        .masonry {
+            columns: 3 240px;
+            column-gap: var(--space-4);
+        }
+
+        .memory-card {
+            break-inside: avoid;
+            margin-bottom: var(--space-4);
+            overflow: hidden;
+            border-radius: var(--radius-xl);
+            background: var(--color-surface);
+            border: 1px solid var(--color-border);
+            box-shadow: var(--shadow-sm);
+            position: relative;
+        }
+
+        .memory-card img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .memory-meta {
+            padding: var(--space-4);
+        }
+
+        .memory-meta h3 {
+            font-size: var(--text-lg);
+            margin-bottom: 0.2rem;
+        }
+
+        .memory-meta p {
+            color: var(--color-text-muted);
+            font-size: var(--text-sm);
+        }
+
+        .letters-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--space-5);
+        }
+
+        .letter-card {
+            padding: var(--space-6);
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(180deg, var(--color-surface), color-mix(in srgb, var(--color-primary) 6%, var(--color-surface)));
+        }
+
+        .letter-card::before {
+            content: "";
+            position: absolute;
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            right: -30px;
+            top: -30px;
+            background: rgba(255, 255, 255, 0.18);
+        }
+
+        .letter-card span {
+            display: inline-block;
+            margin-bottom: var(--space-3);
+            font-size: var(--text-xs);
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--color-primary);
+        }
+
+        .letter-card h3 {
+            margin: 0 0 var(--space-3);
+            font-family: var(--font-display);
+            font-size: var(--text-xl);
+        }
+
+        .letter-card p {
+            margin: 0;
+            color: var(--color-text-muted);
+        }
+
+        .wish-grid {
+            display: grid;
+            grid-template-columns: 1.05fr 0.95fr;
+            gap: var(--space-6);
+        }
+
+        .wish-box {
+            padding: var(--space-6);
+        }
+
+        .wish-list {
+            display: grid;
+            gap: var(--space-4);
+        }
+
+        .wish-item {
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            padding: var(--space-4);
+            background: var(--color-surface-2);
+        }
+
+        .wish-item strong {
+            display: block;
+            margin-bottom: 0.3rem;
+        }
+
+        .wish-preview {
+            overflow: hidden;
+            border-radius: var(--radius-xl);
+            min-height: 100%;
+            position: relative;
+            box-shadow: var(--shadow-md);
+        }
+
+        .wish-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            min-height: 420px;
+        }
+
+        .wish-preview::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, transparent, rgba(20, 10, 16, 0.6));
+        }
+
+        .wish-caption {
+            position: absolute;
+            left: var(--space-5);
+            right: var(--space-5);
+            bottom: var(--space-5);
+            color: white;
+            z-index: 2;
+        }
+
+        .memory-board {
+            padding: var(--space-6);
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-4);
+        }
+
+        .polaroid {
+            background: white;
+            color: #222;
+            padding: var(--space-3) var(--space-3) var(--space-6);
+            border-radius: 0.4rem;
+            box-shadow: 0 14px 30px rgba(0, 0, 0, 0.12);
+            transform: rotate(var(--rotate));
+        }
+
+        .polaroid img {
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+            margin-bottom: var(--space-3);
+            border-radius: 0.2rem;
+        }
+
+        .polaroid strong {
+            display: block;
+            font-size: 1rem;
+        }
+
+        .polaroid span {
+            font-size: 0.84rem;
+            color: #666;
+        }
+
+        .final-banner {
+            padding: var(--space-8);
+            text-align: center;
+            background: linear-gradient(135deg, color-mix(in srgb, var(--color-primary) 14%, var(--color-surface)), color-mix(in srgb, var(--color-secondary) 14%, var(--color-surface)));
+        }
+
+        .final-banner h2 {
+            font-family: var(--font-display);
+            font-size: var(--text-2xl);
+            margin-bottom: var(--space-3);
+        }
+
+        .final-banner p {
+            margin: 0 auto var(--space-5);
+            max-width: 60ch;
+            color: var(--color-text-muted);
+        }
+
+        footer {
+            padding: var(--space-8) 0 var(--space-12);
+            color: var(--color-text-muted);
+        }
+
+        .footer-row {
+            display: flex;
+            justify-content: space-between;
+            gap: var(--space-4);
+            flex-wrap: wrap;
+            border-top: 1px solid var(--color-divider);
+            padding-top: var(--space-6);
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(24px);
+            transition: 800ms cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @media (max-width: 980px) {
+
+            .hero-grid,
+            .gallery-wrap,
+            .wish-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .countdown-grid,
+            .letters-grid,
+            .memory-board {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .gallery-panel {
+                position: static;
+            }
+
+            .hero-card {
+                min-height: 440px;
+            }
+
+            .nav {
+                display: none;
+            }
+
+            .menu-toggle {
+                display: inline-grid;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                width: min(calc(100% - 1.25rem), var(--content-default));
+            }
+
+            .hero {
+                min-height: auto;
+                padding-top: var(--space-10);
+                padding-bottom: var(--space-12);
+            }
+
+            .hero h1 {
+                max-width: 12ch;
+            }
+
+            .hero-card {
+                order: -1;
+                min-height: 380px;
+            }
+
+            .countdown-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .wish-preview img {
+                min-height: 340px;
+            }
+
+            .memory-board {
+                grid-template-columns: 1fr;
+            }
+
+            .polaroid {
+                transform: rotate(0deg);
+            }
+        }
+
+        @media (max-width: 520px) {
+            body {
+                overflow-x: hidden;
+            }
+
+            .header-inner {
+                padding: var(--space-3) 0;
+            }
+
+            .brand {
+                gap: var(--space-2);
+                max-width: calc(100% - 132px);
+            }
+
+            .theme-toggle,
+            .music-toggle,
+            .menu-toggle {
+                width: 42px;
+                height: 42px;
+            }
+
+            .mobile-nav-inner {
+                grid-template-columns: 1fr;
+            }
+
+            .hero {
+                padding-top: var(--space-8);
+            }
+
+            .hero h1 {
+                font-size: clamp(2.3rem, 10vw, 3.2rem);
+                max-width: 100%;
+            }
+
+            .eyebrow {
+                width: 100%;
+                justify-content: center;
+                text-align: center;
+            }
+
+            .hero-card {
+                min-height: 280px;
+            }
+
+            .section-head h2 {
+                font-size: clamp(1.8rem, 8vw, 2.3rem);
+            }
+
+            .countdown-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: var(--space-3);
+            }
+
+            .wish-preview img {
+                min-height: 280px;
+            }
+
+            .footer-row {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 640px) {
+
+            .countdown-grid,
+            .letters-grid,
+            .memory-board {
+                grid-template-columns: 1fr;
+            }
+
+            .header-actions {
+                margin-left: auto;
+            }
+
+            .hero-card {
+                min-height: 320px;
+            }
+
+            .cta-row,
+            .floating-badges {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .cta-row .btn,
+            .gallery-panel .btn {
+                width: 100%;
+            }
+
+            .badge-card {
+                min-width: 0;
+                width: 100%;
+            }
+
+            .gallery-panel {
+                padding: var(--space-4);
+            }
+
+            .masonry {
+                columns: 1;
+            }
+
+            .wish-box,
+            .letter-card,
+            .memory-board,
+            .final-banner {
+                padding: var(--space-5);
+            }
+
+            footer {
+                padding-bottom: var(--space-16);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
+
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="#home" class="brand" aria-label="Birthday Love Gallery home">
+                <svg viewBox="0 0 64 64" fill="none" aria-hidden="true">
+                    <path
+                        d="M32 56C16 45 8 35 8 23C8 14.7 14.5 8 22.5 8C28 8 31.4 11 32 13C32.6 11 36 8 41.5 8C49.5 8 56 14.7 56 23C56 35 48 45 32 56Z"
+                        fill="currentColor"></path>
+                    <path d="M28 22h8m-4-4v8" stroke="white" stroke-width="3" stroke-linecap="round"></path>
+                </svg>
+                <div class="brand-text">
+                    <strong>Birthday Love Gallery for Harshita Chaudhary</strong>
+                    <span>A surprise page made with memories, wishes, and beautiful moments</span>
+                </div>
+            </a>
+
+            <nav class="nav" aria-label="Primary navigation">
+                <a href="#home">Home</a>
+                <a href="#gallery">Gallery</a>
+                <a href="#letters">Love Letters</a>
+                <a href="#wishes">Wishes</a>
+                <a href="#memories">Memories</a>
+            </nav>
+
+            <div class="header-actions">
+                <button class="music-toggle" id="musicToggle" aria-label="Play celebration music">♫</button>
+                <button class="theme-toggle" data-theme-toggle aria-label="Switch theme">☾</button>
+                <button class="menu-toggle" id="menuToggle" aria-expanded="false" aria-controls="mobileNav"
+                    aria-label="Open navigation menu">☰</button>
+            </div>
+        </div>
+
+        <div class="container mobile-nav" id="mobileNav" aria-label="Mobile navigation">
+            <div class="mobile-nav-inner">
+                <a href="#home">Home</a>
+                <a href="#gallery">Gallery</a>
+                <a href="#letters">Love Letters</a>
+                <a href="#wishes">Wishes</a>
+                <a href="#memories">Memories</a>
+            </div>
+        </div>
+    </header>
+
+    <main id="main-content">
+        <section class="hero" id="home">
+            <div class="container hero-grid">
+                <div class="reveal visible">
+                    <div class="eyebrow">A special day · for a special person</div>
+                    <h1>Happy Birthday, My Cutiee Harshii.</h1>
+                    <p>“I don’t know the perfect way to say this, but my heart brain my whole body is thinking about you
+                        and I
+                        want always
+                        to give my all love ,care everything to my loving babbyyy harshhiiii”
+                        .</p>
+                    <div class="cta-row">
+                        <a class="btn btn-primary" href="#gallery">Open the photo gallery</a>
+                        <a class="btn btn-secondary" href="#letters">Read the love letters</a>
+                    </div>
+                    <div class="floating-badges">
+                        <div class="badge-card"><strong id="photoCount">6</strong><span>Beautiful memories</span></div>
+                        <div class="badge-card"><strong>4</strong><span>Love letter corners</span></div>
+                        <div class="badge-card"><strong id="wishCount">4</strong><span>Birthday wishes</span></div>
+                    </div>
+                </div>
+
+                <div class="hero-card reveal visible">
+                    <img src="WhatsApp Image 2026-04-12 at 22.06.58 (2).jpeg"
+                        alt="Soft festive birthday atmosphere with lights and celebration mood" width="900"
+                        height="1200" fetchpriority="high" />
+                    <div class="hero-note">
+                        <strong>To the one who makes my every ordinary day feel magical.</strong>
+                        <span>This birthday is going to be the best 18th birthday of your life.</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section aria-labelledby="countdown-title">
+            <div class="container">
+                <div class="section-head reveal">
+                    <h2 id="countdown-title">Counting begins for the 18th Birthday</h2>
+                    <p>BIG SURPRISE COMING SOONN BABBYYYY</p>
+                </div>
+                <div class="countdown-grid reveal" id="countdownGrid">
+                    <div class="count-box"><strong id="days">00</strong><span>Days</span></div>
+                    <div class="count-box"><strong id="hours">00</strong><span>Hours</span></div>
+                    <div class="count-box"><strong id="minutes">00</strong><span>Minutes</span></div>
+                    <div class="count-box"><strong id="seconds">00</strong><span>Seconds</span></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="gallery" aria-labelledby="gallery-title">
+            <div class="container">
+                <div class="section-head reveal">
+                    <h2 id="gallery-title">Photo gallery</h2>
+                    <p>Harshii add a photo from your device or capture one using your camera. The chosen image is added
+                        instantly to the gallery</p>
+                </div>
+
+                <div class="gallery-wrap">
+                    <aside class="gallery-panel reveal">
+                        <h3
+                            style="margin-top:0; margin-bottom:1rem; font-size: var(--text-xl); font-family: var(--font-display);">
+                            Add a new memory</h3>
+
+                        <label for="photoTitle">Photo title</label>
+                        <input id="photoTitle" type="text" placeholder="Our sweetest moment" />
+
+                        <label for="photoNote">Small memory note</label>
+                        <textarea id="photoNote" placeholder="Why this memory matters so much..."></textarea>
+
+                        <div class="camera-box">
+                            <label style="margin-bottom:0.6rem;">Capture live photo</label>
+                            <video id="cameraPreview" autoplay playsinline muted></video>
+                            <div class="camera-actions">
+                                <button class="btn btn-secondary" id="startCameraBtn" type="button">Start
+                                    camera</button>
+                                <button class="btn btn-primary" id="captureBtn" type="button">Capture photo</button>
+                            </div>
+                            <p class="helper">FABULOUS DARLING
+                            <p>
+                        </div>
+
+                        <div class="upload-preview">
+                            <label for="photoFile">Choose from device</label>
+                            <input id="photoFile" type="file" accept="image/*" />
+                            <img id="filePreview" alt="" style="display:none;" />
+                            <p class="helper">Pick an image from your phone or computer to upload it directly into the
+                                gallery.</p>
+                        </div>
+
+                        <button class="btn btn-primary" id="addPhotoBtn" style="width:100%;">Add to gallery</button>
+                    </aside>
+
+                    <div class="masonry reveal" id="galleryGrid"></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="letters" aria-labelledby="letters-title">
+            <div class="container">
+                <div class="section-head reveal">
+                    <h2 id="letters-title">Four little love letters from your man </h2>
+                    <p>These four message are like small emotional corners, so each one hold a
+                        different feeling </p>
+                </div>
+
+                <div class="letters-grid reveal">
+                    <article class="letter-card">
+                        <span>Letter One</span>
+                        <h3>For your smile</h3>
+                        <p>I hope your day begins with peace, grows with laughter, and ends with the same warmth you
+                            bring into every life around you, Keep smiling always </p>
+                    </article>
+
+                    <article class="letter-card">
+                        <span>Letter Two</span>
+                        <h3>For your heart</h3>
+                        <p>You deserve a year that feels softer, brighter, kinder, and more beautiful than the one
+                            before it, in every possible way, my darling </p>
+                    </article>
+
+                    <article class="letter-card">
+                        <span>Letter Three</span>
+                        <h3>For our memories</h3>
+                        <p>Every shared moment becomes my favorite story because it includes you, your voice, your
+                            energy, and your unforgettable presence, you are the best</p>
+                    </article>
+
+                    <article class="letter-card">
+                        <span>Letter Four</span>
+                        <h3>For the future</h3>
+                        <p>I cannot wait for more photos, more adventures, more long conversations, and more birthdays
+                            where I get to celebrate with you again and want my whole life to spend with you, my harshii
+                        </p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section id="wishes" aria-labelledby="wishes-title">
+            <div class="container">
+                <div class="section-head reveal">
+                    <h2 id="wishes-title">A homepage full of wishes</h2>
+                    <p>This section is like my wishes i want to give you on your birthday </p>
+                </div>
+
+                <div class="wish-grid">
+                    <div class="wish-box reveal">
+                        <div class="wish-list">
+                            <div class="wish-item"><strong>Wish 01</strong><span>May this year bring calm confidence,
+                                    deep happiness, and many proud moments and i want you to be happy always</span>
+                            </div>
+                            <div class="wish-item"><strong>Wish 02</strong><span>May every plan you make find the right
+                                    timing, the right people, and the right blessing but dont forget your ansh,
+                                    hehehe</span></div>
+                            <div class="wish-item"><strong>Wish 03</strong><span>May your smile stay bright even on
+                                    ordinary days, not just the extraordinary ones and promise to maintain them in
+                                    future </span></div>
+                            <div class="wish-item"><strong>Wish 04</strong><span>May my love follow you gently in every
+                                    room, every season, and every chapter ahead in every way and dont feel it as a
+                                    burden or toxicity.</span></div>
+                        </div>
+                    </div>
+
+                    <div class="wish-preview reveal">
+                        <img src="WhatsApp Image 2026-04-12 at 22.06.57 (2).jpeg"
+                            alt="Celebration background with birthday mood and dreamy festive lighting" width="900"
+                            height="1100" loading="lazy" />
+                        <div class="wish-caption">
+                            <strong style="display:block; font-size: var(--text-lg); margin-bottom: 0.3rem;">Made for a
+                                memorable birthday surprise</strong>
+                            <span>our romantic and falling in deep love pic .</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="memories" aria-labelledby="memories-title">
+            <div class="container">
+                <div class="section-head reveal">
+                    <h2 id="memories-title">Polaroid memory board</h2>
+                    <p>A scrapbook of our memories.</p>
+                </div>
+
+                <div class="memory-board reveal">
+                    <div class="polaroid" style="--rotate:-4deg;">
+                        <img src="WhatsApp Image 2026-04-12 at 22.06.59 copy.jpeg"
+                            alt="Birthday cake celebration moment" width="600" height="600" loading="lazy" />
+                        <strong>Wish on the candles</strong>
+                        <span>Every little flame carries a dream.</span>
+                    </div>
+
+                    <div class="polaroid" style="--rotate:3deg;">
+                        <img src="WhatsApp Image 2026-04-12 at 22.06.58 (1).jpeg"
+                            alt="Golden celebration lights and festive joy" width="600" height="600" loading="lazy" />
+                        <strong>Golden evening</strong>
+                        <span>The kind of day that deserves slow beautiful memories.</span>
+                    </div>
+
+                    <div class="polaroid" style="--rotate:-2deg;">
+                        <img src="WhatsApp Image 2026-04-12 at 22.06.56.jpeg"
+                            alt="Soft flowers and romantic birthday aesthetic" width="600" height="600"
+                            loading="lazy" />
+                        <strong>Softest surprise</strong>
+                        <span>A small gesture can hold the biggest feelings.</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <div class="container">
+                <div class="final-banner reveal">
+                    <h2>Happy Birthday, with all my heart.</h2>
+                    <p>May you like this website it contain not only your pics but also our memories and our love and
+                        our journey and our future and my love of my life my janemaan my sweetie pie harshiii , you are
+                        just amazing girl i have ever seen in my life your are more than wow. "AAPKA KYA HI KHENNA ,
+                        CHAAND SI MEHBOOBA "</p>
+                    <a class="btn btn-primary" href="#home">Back to top</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container footer-row">
+            <span>Get set ready for your 18th birthday Ms.Harshita Chaudhary somethiing big is coming....</span>
+            <span>SMALL SURPRISE FROM YOUR LOVING PARTNER ANSH PANDITA </span>
+        </div>
+    </footer>
+
+    <audio id="celebrationAudio" preload="none">
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        const root = document.documentElement;
+        const themeBtn = document.querySelector('[data-theme-toggle]');
+        let theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        root.setAttribute('data-theme', theme);
+        themeBtn.textContent = theme === 'dark' ? '☀' : '☾';
+
+        themeBtn.addEventListener('click', () => {
+            theme = theme === 'dark' ? 'light' : 'dark';
+            root.setAttribute('data-theme', theme);
+            themeBtn.textContent = theme === 'dark' ? '☀' : '☾';
+        });
+
+        const defaultGallery = [
+            { title: 'Birthday glow', note: 'HARSHII YOUR SMILE, JUST KEEP IT FOR ALWAYS ON YOUR FACE.', url: 'ansh.jpeg' },
+            { title: 'Soft balloon scene', note: 'HARSHII YOUR EYESS ARE JUST OCEAN MAKE ME DROWN IN IT.', url: 'WhatsApp Image 2026-04-12 at 22.06.57 (1).jpeg' },
+            { title: 'Cake and sparkle', note: 'HARSHII YOU ARE SO BEAUTIFULL MY LOVE.', url: '1.jpeg' },
+            { title: 'Golden memory', note: 'HARSHII THIS DAY YOU WERE LOOKING SO BEAUTIFUL AND I WAS FALLING IN LOVE WITH YOU MORE AND MORE.', url: '2.jpeg' },
+            { title: 'Celebration lights', note: 'HARSHII YOUR PRESSENCE MAKE MY DAY BRIGHT MORE THAN THE SUN.', url: '3.jpeg' },
+            { title: 'Rose party mood', note: 'HARSHII YOUR CURVES AND MOVES ARE JUST AWESOME ,KILLING IT. ', url: 'WhatsApp Image 2026-04-12 at 22.06.57.jpeg' }
+        ];
+
+        const galleryGrid = document.getElementById('galleryGrid');
+        const photoCount = document.getElementById('photoCount');
+        const wishCount = document.getElementById('wishCount');
+        const photoFile = document.getElementById('photoFile');
+        const filePreview = document.getElementById('filePreview');
+        const photoTitle = document.getElementById('photoTitle');
+        const photoNote = document.getElementById('photoNote');
+        const addPhotoBtn = document.getElementById('addPhotoBtn');
+
+        wishCount.textContent = document.querySelectorAll('.wish-item').length;
+
+        const galleryItems = [...defaultGallery];
+        let capturedDataUrl = '';
+
+        function renderGallery(items) {
+            galleryGrid.innerHTML = items.map(item => `
+        <article class="memory-card">
+          <img src="${item.url}" alt="${item.title}" width="700" height="900" loading="lazy">
+          <div class="memory-meta">
+            <h3>${item.title}</h3>
+            <p>${item.note}</p>
+          </div>
+        </article>
+      `).join('');
+            photoCount.textContent = items.length;
+        }
+
+        renderGallery(galleryItems);
+
+        photoFile.addEventListener('change', () => {
+            const file = photoFile.files && photoFile.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = e => {
+                capturedDataUrl = '';
+                filePreview.src = e.target.result;
+                filePreview.style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+        });
+
+        addPhotoBtn.addEventListener('click', () => {
+            const title = photoTitle.value.trim();
+            const note = photoNote.value.trim();
+            const file = photoFile.files && photoFile.files[0];
+
+            if (!title || !note) {
+                alert('Please fill in the title and memory note.');
+                return;
+            }
+
+            let url = capturedDataUrl;
+            if (!url && filePreview.src && filePreview.style.display !== 'none') {
+                url = filePreview.src;
+            }
+
+            if (!url) {
+                alert('Please capture a live photo or choose an image from your device first.');
+                return;
+            }
+
+            galleryItems.unshift({ title, note, url });
+            renderGallery(galleryItems);
+
+            photoTitle.value = '';
+            photoNote.value = '';
+            photoFile.value = '';
+            filePreview.src = '';
+            filePreview.style.display = 'none';
+            capturedDataUrl = '';
+        });
+
+        const cameraPreview = document.getElementById('cameraPreview');
+        const startCameraBtn = document.getElementById('startCameraBtn');
+        const captureBtn = document.getElementById('captureBtn');
+        let stream = null;
+
+        startCameraBtn.addEventListener('click', async () => {
+            try {
+                if (stream) {
+                    stream.getTracks().forEach(t => t.stop());
+                }
+                stream = await navigator.mediaDevices.getUserMedia({
+                    video: { facingMode: 'user' },
+                    audio: false
+                });
+                cameraPreview.srcObject = stream;
+            } catch (err) {
+                alert('Camera access is not available in this browser or permission was denied.');
+            }
+        });
+
+        captureBtn.addEventListener('click', () => {
+            if (!stream) {
+                alert('Start the camera first.');
+                return;
+            }
+
+            const video = cameraPreview;
+            if (!video.videoWidth || !video.videoHeight) {
+                alert('Camera is not ready yet.');
+                return;
+            }
+
+            const canvas = document.createElement('canvas');
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+            capturedDataUrl = canvas.toDataURL('image/jpeg', 0.92);
+            filePreview.src = capturedDataUrl;
+            filePreview.style.display = 'block';
+
+            if (stream) {
+                stream.getTracks().forEach(t => t.stop());
+                stream = null;
+                cameraPreview.srcObject = null;
+            }
+        });
+
+        function getBirthdayDateIST() {
+            const now = new Date();
+            const istFormatter = new Intl.DateTimeFormat('en-CA', {
+                timeZone: 'Asia/Kolkata',
+                year: 'numeric'
+            });
+
+            const currentYearIST = Number(istFormatter.format(now));
+            let target = new Date(`${currentYearIST}-07-31T00:00:00+05:30`);
+
+            if (now > target) {
+                target = new Date(`${currentYearIST + 1}-07-31T00:00:00+05:30`);
+            }
+
+            return target;
+        }
+
+        const birthdayDate = getBirthdayDateIST();
+
+        function updateCountdown() {
+            const now = new Date();
+            const diff = birthdayDate - now;
+
+            if (diff <= 0) {
+                ['days', 'hours', 'minutes', 'seconds'].forEach(id => {
+                    document.getElementById(id).textContent = '00';
+                });
+                return;
+            }
+
+            document.getElementById('days').textContent = String(Math.floor(diff / (1000 * 60 * 60 * 24))).padStart(2, '0');
+            document.getElementById('hours').textContent = String(Math.floor((diff / (1000 * 60 * 60)) % 24)).padStart(2, '0');
+            document.getElementById('minutes').textContent = String(Math.floor((diff / (1000 * 60)) % 60)).padStart(2, '0');
+            document.getElementById('seconds').textContent = String(Math.floor((diff / 1000) % 60)).padStart(2, '0');
+        }
+
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
+
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('visible');
+            });
+        }, { threshold: 0.12 });
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        const menuToggle = document.getElementById('menuToggle');
+        const mobileNav = document.getElementById('mobileNav');
+
+        menuToggle?.addEventListener('click', () => {
+            const expanded = menuToggle.getAttribute('aria-expanded') === 'true';
+            menuToggle.setAttribute('aria-expanded', String(!expanded));
+            menuToggle.textContent = expanded ? '☰' : '✕';
+            menuToggle.setAttribute('aria-label', expanded ? 'Open navigation menu' : 'Close navigation menu');
+            mobileNav.classList.toggle('open');
+        });
+
+        mobileNav?.querySelectorAll('a').forEach(link => link.addEventListener('click', () => {
+            mobileNav.classList.remove('open');
+            menuToggle.setAttribute('aria-expanded', 'false');
+            menuToggle.textContent = '☰';
+            menuToggle.setAttribute('aria-label', 'Open navigation menu');
+        }));
+
+        const audio = document.getElementById('celebrationAudio');
+        const musicToggle = document.getElementById('musicToggle');
+        let playing = false;
+
+        musicToggle.addEventListener('click', async () => {
+            try {
+                if (!playing) {
+                    await audio.play();
+                    musicToggle.textContent = '❚❚';
+                    musicToggle.setAttribute('aria-label', 'Pause celebration music');
+                    playing = true;
+                } else {
+                    audio.pause();
+                    musicToggle.textContent = '♫';
+                    musicToggle.setAttribute('aria-label', 'Play celebration music');
+                    playing = false;
+                }
+            } catch (e) {
+                alert('Music playback may be blocked until the browser allows media playback.');
+            }
+        });
+    </script>
+</body>
+
+</html>
